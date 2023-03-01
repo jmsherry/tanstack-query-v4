@@ -28,11 +28,16 @@ export default function CarForm({ car, submitHandler }) {
     formState: { errors, isValid, isDirty, isSubmitting },
     reset,
     control,
+    formState,
   } = useForm({
     resolver: yupResolver(schema),
     mode: "onChange",
     defaultValues: car || defaults,
   });
+
+  useEffect(() => {
+    console.log(formState);
+  })
 
   useEffect(() => {
     // console.log('useeffect', car);
