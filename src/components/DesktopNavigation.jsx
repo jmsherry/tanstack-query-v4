@@ -21,7 +21,7 @@ function DesktopNavigation({
     console.log("no handleDrawerToggle function provided"),
 }) {
   const theme = useTheme();
-  console.log(theme);
+  // console.log(theme);
   const lightTextColor = theme.palette.common.white;
   return (
     <>

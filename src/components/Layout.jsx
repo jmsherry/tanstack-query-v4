@@ -16,7 +16,6 @@ function Layout() {
     message,
     hideDuration,
   } = useContext(UIContext);
-  console.log(handleClose);
 
   const action = (props) => {
     console.log(props);

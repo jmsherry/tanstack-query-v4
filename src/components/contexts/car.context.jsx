@@ -23,13 +23,12 @@ export const CarsProvider = ({ children }) => {
   const [error, setError] = useState(null);
 
   const fetchCars = useCallback(async () => {
-    // console.log('loading', loading);
-    // console.log('error', error);
     if (loading || loaded || error) {
       return;
     }
     setLoading(true);
     try {
+      console.log(`fetching from ${CARS_ENDPOINT}`);
       const response = await fetch(CARS_ENDPOINT);
       if (!response.ok) {
         throw response;
@@ -38,12 +37,13 @@ export const CarsProvider = ({ children }) => {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
       setCars(data);
     } catch (err) {
-      setError(err.message || err.statusText);
+      console.log("Error", err);
+      setError(`Failed to load cars`);
     } finally {
       setLoaded(true);
       setLoading(false);
     }
-  }, [error, loaded, loading]);
+  }, [error, loaded, loading, setError, setCars, setLoaded, setLoading]);
 
   const addCar = useCallback(
     async (formData) => {
@@ -69,11 +69,11 @@ export const CarsProvider = ({ children }) => {
         console.log(err);
         showMessage({
           type: "error",
-          string: `Error loading cars`,
+          string: `Error adding car`,
         });
       }
     },
-    [cars]
+    [cars, setCars, showMessage]
   );
 
   const updateCar = useCallback(
@@ -125,18 +125,20 @@ export const CarsProvider = ({ children }) => {
           ...cars.slice(index + 1),
         ];
         localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedCars));
-        // addToast(`Updated ${updatedCar.name}`, {
-        //   appearance: "success",
-        // });
         setCars(updatedCars);
+        showMessage({
+          type: "success",
+          string: `Successfully update ${updatedCar.name}`,
+        });
       } catch (err) {
         console.log(err);
-        // addToast(`Error: Failed to update ${oldCar ? oldCar?.name : id}`, {
-        //   appearance: "error",
-        // });
+        showMessage({
+          type: "error",
+          string: `Error loading cars`,
+        });
       }
     },
-    [cars]
+    [cars, setCars, showMessage]
   );
 
   const deleteCar = useCallback(
@@ -161,17 +163,19 @@ export const CarsProvider = ({ children }) => {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedCars));
         setCars(updatedCars);
         console.log(`Deleted ${deletedCar.name}`);
-        // addToast(`Deleted ${deletedCar.name}`, {
-        //   appearance: "success",
-        // });
+        showMessage({
+          type: "success",
+          string: `Successfully deleted ${deletedCar.name}`,
+        });
       } catch (err) {
         console.log(err);
-        // addToast(`Error: Failed to update ${deletedCar.name}`, {
-        //   appearance: "error",
-        // });
+        showMessage({
+          type: "error",
+          string: `Error deleting ${deletedCar.name}`,
+        });
       }
     },
-    [cars]
+    [cars, setCars, showMessage]
   );
 
   return (

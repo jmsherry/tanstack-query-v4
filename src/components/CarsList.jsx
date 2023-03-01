@@ -16,7 +16,7 @@ function CarsList({
   deleteHandler = () => console.log("No deleteHandler provided to Cars List"),
 }) {
   const reversedCars = [...cars].reverse();
-  console.log(reversedCars);
+  // console.log(reversedCars);
   return (
     <List>
       {reversedCars.map(({ name, bhp, avatar_url, _id }) => (

@@ -13,7 +13,7 @@ export const UIContext = createContext({
 export const UIProvider = ({ children }) => {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
-  const [severity, setSeverity] = useState("");
+  const [severity, setSeverity] = useState("info");
 
   const onClose = () => {
     setOpen(false);
