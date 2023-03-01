@@ -20,9 +20,9 @@ function Header() {
         mobileOpen={mobileOpen}
       />
       <DesktopNavigation handleDrawerToggle={handleDrawerToggle} />
-      <Box component="main" sx={{ p: 3 }}>
+      {/* <Box component="main" sx={{ p: 3 }}>
         <Toolbar />
-      </Box>
+      </Box> */}
     </Box>
   );
 }

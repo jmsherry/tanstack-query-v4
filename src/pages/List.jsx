@@ -20,14 +20,14 @@ function CarsListPage() {
     deleteCar(id);
   };
 
-  let component = <></>;
+  let callStatusComponent = null;
 
   if (loading) {
-    component = <CircularProgress />;
+    callStatusComponent = <CircularProgress />;
   } else if (error) {
-    component = <p>{error}: Loading from localStorage</p>;
+    callStatusComponent = <p>{error}: Loading from localStorage</p>;
   } else if (cars.length === 0) {
-    component = <p>No cars to display</p>;
+    callStatusComponent = <p>No cars to display</p>;
   }
 
   return (
@@ -35,7 +35,7 @@ function CarsListPage() {
       <Typography variant="h3" component="h2">
         Cars
       </Typography>
-      {component}
+      {callStatusComponent}
       {/* <Button
         onClick={() =>
           showMessage({
