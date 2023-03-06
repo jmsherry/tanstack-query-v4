@@ -1,17 +1,31 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
+import { useQueryClient } from "@tanstack/react-query";
 import CarForm from "../components/forms/CarForm";
-import { CarsContext } from "../components/contexts/car.context";
+import { addCar } from "../../API";
+
 
 function Add() {
-  const { addCar } = useContext(CarsContext);
+
   const navigate = useNavigate();
 
+  // Access the client
+  const queryClient = useQueryClient();
+  // Mutations
+  const addMutation = useMutation({
+    mutationFn: addCar,
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ["cars"] });
+    },
+  });
+
   const submitHandler = (data) => {
-    addCar(data);
+    addMutation.mutate(data);
     navigate("/");
   };
+
   return (
     <>
       <Typography variant="h2" component="h1">

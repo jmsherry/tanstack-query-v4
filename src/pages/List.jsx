@@ -1,52 +1,61 @@
-import React, { useContext, useEffect } from "react";
+import React, { /*useContext,*/ useEffect } from "react";
 import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
+import Button from "@mui/material/Button";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  // QueryErrorResetBoundary,
+  useQueryErrorResetBoundary,
+} from "@tanstack/react-query";
+import { ErrorBoundary } from "react-error-boundary";
 
-import { CarsContext } from "../components/contexts/car.context";
-// import { UIContext } from "./../components/contexts/UI.context";
+import { fetchCars, deleteCar } from "./../../API/index";
 
 import CarsList from "../components/CarsList";
 
 function CarsListPage() {
-  const { cars, fetchCars, deleteCar, loading, error } =
-    useContext(CarsContext);
-  // const { showMessage } = useContext(UIContext);
+  // Access the client
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    fetchCars();
-  }, [fetchCars]);
+  // Queries
+  const query = useQuery({ queryKey: ["cars"], queryFn: fetchCars });
+  // console.log(query);
+
+  // Mutations
+  const deleteMutation = useMutation({
+    mutationFn: deleteCar,
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ["cars"] });
+    },
+  });
 
   const deleteHandler = (id) => {
-    deleteCar(id);
+    // console.log("Delete Handler", id);
+    deleteMutation.mutate(id);
   };
 
-  let callStatusComponent = null;
-
-  if (loading) {
-    callStatusComponent = <CircularProgress />;
-  } else if (error) {
-    callStatusComponent = <p>{error}: Loading from localStorage</p>;
-  } else if (cars.length === 0) {
-    callStatusComponent = <p>No cars to display</p>;
-  }
+  const { reset } = useQueryErrorResetBoundary();
 
   return (
     <>
       <Typography variant="h3" component="h2">
         Cars
       </Typography>
-      {callStatusComponent}
-      {/* <Button
-        onClick={() =>
-          showMessage({
-            type: "warning",
-            string: "This is a warning",
-          })
-        }
+      {/* {callStatusComponent} */}
+      <ErrorBoundary
+        onReset={reset}
+        fallbackRender={({ resetErrorBoundary }) => (
+          <div>
+            There was an error!
+            <Button onClick={() => resetErrorBoundary()}>Try again</Button>
+          </div>
+        )}
       >
-        Show Message
-      </Button> */}
-      <CarsList cars={cars} deleteHandler={deleteHandler} />
+        <CarsList cars={query.data} deleteHandler={deleteHandler} />
+      </ErrorBoundary>
     </>
   );
 }

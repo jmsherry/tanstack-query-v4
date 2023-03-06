@@ -7,6 +7,7 @@ import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { UIContext } from "./contexts/UI.context";
+import Typography from "@mui/material/Typography";
 
 function Layout() {
   const {
@@ -49,8 +50,10 @@ function Layout() {
         onClose={handleClose}
       >
         <Alert onClose={handleClose} severity={severity} sx={{ width: "100%" }}>
-          {message}
-          {action}
+          <>
+            <Typography paragraph>{message}</Typography>
+            {action}
+          </>
         </Alert>
       </Snackbar>
     </>

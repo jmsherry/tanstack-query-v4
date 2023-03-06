@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
@@ -11,8 +13,18 @@ import theme from "./theme/theme";
 
 import Layout from "./components/Layout";
 
-import { CarsProvider } from "./components/contexts/car.context";
 import { UIProvider } from "./components/contexts/UI.context";
+
+// import { CarsProvider } from "./components/contexts/car.context"; // replaced by react-query
+// REACT-QUERY: Create a client
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      suspense: true,
+      staleTime: 1000 * 10,
+    },
+  },
+});
 
 // import pages
 import List from "./pages/List";
@@ -28,7 +40,10 @@ function App() {
       <CssBaseline />
       <ThemeProvider theme={theme}>
         <UIProvider>
-          <CarsProvider>
+          {/* <CarsProvider> */}
+          {/* REACT-QUERY: Provide the client to your App */}
+          <QueryClientProvider client={queryClient}>
+            <ReactQueryDevtools />
             <Routes>
               <Route path="/" element={<Layout />}>
                 <Route index element={<List />} />
@@ -37,7 +52,8 @@ function App() {
                 <Route path="*" element={<NotFound />} />
               </Route>
             </Routes>
-          </CarsProvider>
+          </QueryClientProvider>
+          {/* </CarsProvider> */}
         </UIProvider>
       </ThemeProvider>
     </Router>
