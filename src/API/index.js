@@ -2,8 +2,9 @@ import { CARS_ENDPOINT } from "../settings";
 import axios from "axios";
 
 export const fetchCars = async () => {
-  const response = await axios(CARS_ENDPOINT);
-  // const response = await axios(CARS_ENDPOINT.slice(0, -3));
+  // const response = await axios(CARS_ENDPOINT);
+  const response = await axios(CARS_ENDPOINT.slice(0, -3));
+  console.log(response);
   return response.data;
 };
 

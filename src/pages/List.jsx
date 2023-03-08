@@ -1,8 +1,8 @@
-import React, { /*useContext,*/ useEffect, Suspense } from "react";
+import React from "react";
 import Typography from "@mui/material/Typography";
-import CircularProgress from "@mui/material/CircularProgress";
 
 import CarsList from "../components/CarsList";
+import { QueryBoundaries } from "../components/QueryBoundaries";
 
 import { useCars } from "./../rq/queries";
 import { useDelete } from "./../rq/mutations";
@@ -14,24 +14,16 @@ const CarsListPage = () => {
     deleteMutation.mutate(id);
   };
 
-  const { data, isLoading, error, isError, isFetching } = useCars();
-
-  let component = null;
-
-  if (isLoading || isFetching) {
-    component = <CircularProgress />;
-  } else if (isError) {
-    component = <p>Error: {error.message}</p>;
-  } else {
-    component = <CarsList cars={data} deleteHandler={deleteHandler} />;
-  }
+  const { data } = useCars();
 
   return (
     <>
       <Typography variant="h3" component="h2">
         Cars
       </Typography>
-      {component}
+      <QueryBoundaries>
+        <CarsList cars={data} deleteHandler={deleteHandler} />
+      </QueryBoundaries>
     </>
   );
 };
