@@ -1,25 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
-import { useQueryClient } from "@tanstack/react-query";
 import CarForm from "../components/forms/CarForm";
-import { addCar } from "../../API";
+import { useAdd } from "../rq/mutations";
 
-
-function Add() {
-
+const Add = () => {
   const navigate = useNavigate();
-
-  // Access the client
-  const queryClient = useQueryClient();
-  // Mutations
-  const addMutation = useMutation({
-    mutationFn: addCar,
-    onSuccess: () => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["cars"] });
-    },
-  });
+  const addMutation = useAdd();
 
   const submitHandler = (data) => {
     addMutation.mutate(data);
@@ -34,6 +21,6 @@ function Add() {
       <CarForm submitHandler={submitHandler} />
     </>
   );
-}
+};
 
 export default Add;

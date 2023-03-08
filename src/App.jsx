@@ -23,6 +23,8 @@ const queryClient = new QueryClient({
     queries: {
       suspense: true,
       staleTime: 1000 * 10,
+      retry: process.env.NODE_ENV === 'production',
+      refetchOnWindowFocus: process.env.NODE_ENV === 'production',
     },
   },
 });

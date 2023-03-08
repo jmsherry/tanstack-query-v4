@@ -51,7 +51,6 @@ export default function CarForm({ car, submitHandler }) {
   };
 
   let submitFn = (vals) => {
-    console.log('in form', vals);
     reset();
     submitHandler(vals);
   };

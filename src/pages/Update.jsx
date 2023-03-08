@@ -1,30 +1,20 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useQueryClient, useQuery, useMutation } from "@tanstack/react-query";
 import Typography from "@mui/material/Typography";
 import CarForm from "../components/forms/CarForm";
-import { fetchCars, updateCar } from "./../../API/index";
+
 import { getDiffOfTwoObjects } from "./../utils/index";
+import { useUpdate } from "../rq/mutations";
+import { useCars } from "../rq/queries";
 
-function Update() {
+const Update = () => {
   const { id } = useParams();
-
   const navigate = useNavigate();
 
-  // Access the client
-  const queryClient = useQueryClient();
-  const query = useQuery({ queryKey: ["cars"], queryFn: fetchCars });
+  const { data } = useCars();
+  const car = data.find(({ _id }) => _id === id);
 
-  const car = query.data.find(({ _id }) => _id === id);
-
-  // Mutations
-  const updateMutation = useMutation({
-    mutationFn: updateCar,
-    onSuccess: () => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["cars"] });
-    },
-  });
+  const updateMutation = useUpdate();
 
   const submitHandler = (formData) => {
     const updates = getDiffOfTwoObjects(car, formData);
@@ -40,6 +30,6 @@ function Update() {
       <CarForm car={car} submitHandler={submitHandler} />
     </>
   );
-}
+};
 
 export default Update;
