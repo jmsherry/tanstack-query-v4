@@ -19,9 +19,9 @@ import { UIProvider } from "./components/contexts/UI.context";
 // REACT-QUERY: Create a client
 const queryClient = new QueryClient({
   defaultOptions: {
-    suspense: true,
+    // suspense: true,
     queries: {
-      suspense: true,
+      // suspense: true,
       staleTime: 1000 * 10,
       retry: process.env.NODE_ENV === 'production',
       refetchOnWindowFocus: process.env.NODE_ENV === 'production',

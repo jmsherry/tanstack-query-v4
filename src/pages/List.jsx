@@ -5,14 +5,9 @@ import CircularProgress from "@mui/material/CircularProgress";
 import CarsList from "../components/CarsList";
 
 import { useCars } from "./../rq/queries";
-import { useDelete } from "./../rq/mutations";
+// import { useDelete } from "./../rq/mutations";
 
 const CarsListPage = () => {
-  const deleteMutation = useDelete()
-  const deleteHandler = (id) => {
-    deleteMutation.mutate(id);
-  };
-
   const { data, isLoading, error, isError, isFetching } = useCars();
 
   let component = null;
@@ -20,9 +15,9 @@ const CarsListPage = () => {
   if (isLoading || isFetching) {
     component = <CircularProgress />;
   } else if (isError) {
-    component = <p>Error: {JSON.stringify(error)}</p>;
+    component = <p>Error: {error.message}</p>;
   } else {
-    component = <CarsList cars={data} deleteHandler={deleteHandler} />;
+    component = <CarsList cars={data} />;
   }
 
   return (

@@ -2,12 +2,17 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchCars, fetchCar } from "../API/index";
 import { STORAGE_KEY } from "./../settings";
 
-export const useCars = ({ onSuccess, onError } = {}) =>
+export const useCars = ({
+  onSuccess = () => {},
+  onError = (err) => {
+    console.log(err);
+  },
+} = {}) =>
   useQuery({
     queryKey: [STORAGE_KEY],
     queryFn: fetchCars,
-    onSuccess,
-    onError,
+    // onSuccess,
+    // onError,
   });
 
 export const useCar = ({ onSuccess, onError } = {}) =>
