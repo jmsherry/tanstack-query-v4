@@ -42,9 +42,7 @@ function CarsListPage() {
       <Typography variant="h3" component="h2">
         Cars
       </Typography>
-      <QueryBoundaries>
-        <CarsList cars={data} deleteHandler={deleteHandler} />
-      </QueryBoundaries>
+      <CarsList cars={data} deleteHandler={deleteHandler} />
     </>
   );
 }
