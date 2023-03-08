@@ -1,46 +1,44 @@
 import { CARS_ENDPOINT } from "../settings";
+import axios from "axios";
+import { sleep } from "./../utils/index"
 
 export const fetchCars = async () => {
-  const resp = await fetch(CARS_ENDPOINT);
-  // const resp = await fetch(CARS_ENDPOINT.slice(0, -3));
-  console.log(resp);
-  if (!resp.ok) throw new Error("Failed to fetch");
-  return await resp.json();
+  const response = await axios(CARS_ENDPOINT);
+  // const response = await axios(CARS_ENDPOINT.slice(0, -3));
+  console.log("start blocking");
+  sleep();
+  console.log("end blocking");
+  return response.data;
 };
 
 export const fetchCar = async (id) => {
-  const resp = await fetch(`${CARS_ENDPOINT}${id}`);
-  if (!resp.ok) throw new Error(await resp.json());
-  return await resp.json();
+  const response = await axios(`${CARS_ENDPOINT}${id}`);
+  return response.data;
 };
 
 export const addCar = async (data) => {
-  const resp = await fetch(CARS_ENDPOINT, {
+  console.log("about to add", data);
+  const response = await axios({
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
+    url: CARS_ENDPOINT,
+    data,
   });
-  if (!resp.ok) throw new Error(await resp.json());
-  return resp.json();
+  return response.data;
 };
 
 export const updateCar = async ({ id, data }) => {
-  const resp = await fetch(`${CARS_ENDPOINT}${id}`, {
+  console.log("in api", id, data);
+  const response = await axios({
+    url: `${CARS_ENDPOINT}${id}`,
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
+    data,
   });
-  if (!resp.ok) throw new Error(await resp.json());
-  return resp.json();
+  return response.data;
 };
 
 export const deleteCar = async (id) => {
-  const resp = await fetch(`${CARS_ENDPOINT}${id}`, {
+  return await axios({
     method: "DELETE",
+    url: `${CARS_ENDPOINT}${id}`,
   });
-  if (!resp.ok) throw new Error(await resp.json());
 };
