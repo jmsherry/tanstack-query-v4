@@ -28,7 +28,7 @@ function Update() {
 
   const submitHandler = (formData) => {
     const updates = getDiffOfTwoObjects(car, formData);
-    updateMutation.mutate({ id, data: updates });
+    updateMutation.mutate({ id, data: updates }); // NOTE HOW YOU PASS MULTIPLE VARIABLES
     navigate("/");
   };
 
