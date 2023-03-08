@@ -1,13 +1,9 @@
 import { CARS_ENDPOINT } from "../settings";
 import axios from "axios";
-import { sleep } from "./../utils/index"
 
 export const fetchCars = async () => {
   const response = await axios(CARS_ENDPOINT);
   // const response = await axios(CARS_ENDPOINT.slice(0, -3));
-  console.log("start blocking");
-  sleep();
-  console.log("end blocking");
   return response.data;
 };
 
