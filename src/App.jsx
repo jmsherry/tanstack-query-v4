@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider, } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import "@fontsource/roboto/300.css";
@@ -19,6 +19,7 @@ import { UIProvider } from "./components/contexts/UI.context";
 // REACT-QUERY: Create a client
 const queryClient = new QueryClient({
   defaultOptions: {
+    suspense: true,
     queries: {
       suspense: true,
       staleTime: 1000 * 10,

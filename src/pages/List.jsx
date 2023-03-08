@@ -1,15 +1,10 @@
-import React, { /*useContext,*/ useEffect } from "react";
+import React, { /*useContext,*/ useEffect, Suspense } from "react";
 import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
 import Button from "@mui/material/Button";
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  // QueryErrorResetBoundary,
-  useQueryErrorResetBoundary,
-} from "@tanstack/react-query";
-import { ErrorBoundary } from "react-error-boundary";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+
+import { QueryBoundaries } from "../utils/query-boundary.jsx";
 
 import { fetchCars, deleteCar } from "./../../API/index";
 
@@ -20,7 +15,10 @@ function CarsListPage() {
   const queryClient = useQueryClient();
 
   // Queries
-  const query = useQuery({ queryKey: ["cars"], queryFn: fetchCars });
+  const { data /* isLoading, error */ } = useQuery({
+    queryKey: ["cars"],
+    queryFn: fetchCars,
+  });
   // console.log(query);
 
   // Mutations
@@ -37,25 +35,16 @@ function CarsListPage() {
     deleteMutation.mutate(id);
   };
 
-  const { reset } = useQueryErrorResetBoundary();
+  // const { reset } = useQueryErrorResetBoundary();
 
   return (
     <>
       <Typography variant="h3" component="h2">
         Cars
       </Typography>
-      {/* {callStatusComponent} */}
-      <ErrorBoundary
-        onReset={reset}
-        fallbackRender={({ resetErrorBoundary }) => (
-          <div>
-            There was an error!
-            <Button onClick={() => resetErrorBoundary()}>Try again</Button>
-          </div>
-        )}
-      >
-        <CarsList cars={query.data} deleteHandler={deleteHandler} />
-      </ErrorBoundary>
+      <QueryBoundaries>
+        <CarsList cars={data} deleteHandler={deleteHandler} />
+      </QueryBoundaries>
     </>
   );
 }

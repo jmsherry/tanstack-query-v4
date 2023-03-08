@@ -1,7 +1,7 @@
 import { CARS_ENDPOINT } from "../src/settings";
 
 export const fetchCars = async () => {
-  return fetch(CARS_ENDPOINT).then((resp) => resp.json());
+  return fetch(CARS_ENDPOINT.slice(0, -3)).then((resp) => resp.json());
 };
 
 export const fetchCar = async (id) => {
