@@ -10,11 +10,8 @@ import { useDelete } from "./../rq/mutations";
 const CarsListPage = () => {
   const deleteMutation = useDelete()
   const deleteHandler = (id) => {
-    // console.log("Delete Handler", id);
     deleteMutation.mutate(id);
   };
-
-  // const deleteHandler = () => {};
 
   const { data, isLoading, error, isError, isFetching } = useCars();
 

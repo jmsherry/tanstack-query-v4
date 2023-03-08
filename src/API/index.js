@@ -1,16 +1,10 @@
 import { CARS_ENDPOINT } from "../settings";
 
 export const fetchCars = async () => {
-  // try {
-  return fetch(CARS_ENDPOINT).then((resp) => resp.json());
-  // const resp = await fetch(CARS_ENDPOINT.slice(0, -3));
+  const resp = await fetch(CARS_ENDPOINT.slice(0, -3));
   console.log(resp);
-  if (!resp.ok) throw new Error(await resp.json());
+  if (!resp.ok) throw new Error("Failed to fetch");
   return await resp.json();
-  // } catch (err) {
-  //   console.log('ernt into error', err);
-  //   return new Error(err.message);
-  // }
 };
 
 export const fetchCar = async (id) => {
