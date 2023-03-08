@@ -15,7 +15,6 @@ import Layout from "./components/Layout";
 
 import { UIProvider } from "./components/contexts/UI.context";
 
-// import { CarsProvider } from "./components/contexts/car.context"; // replaced by react-query
 // REACT-QUERY: Create a client
 const queryClient = new QueryClient({
   defaultOptions: {

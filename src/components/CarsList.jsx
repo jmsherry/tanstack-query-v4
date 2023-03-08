@@ -11,11 +11,17 @@ import EditIcon from "@mui/icons-material/Edit";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Typography from "@mui/material/Typography";
 
-function CarsList({
-  cars = [],
-  deleteHandler = () => console.log("No deleteHandler provided to Cars List"),
-}) {
+import { useCars } from "./../rq/queries";
+import { useDelete } from "./../rq/mutations";
 
+function CarsList() {
+  const deleteMutation = useDelete();
+
+  const deleteHandler = (id) => {
+    deleteMutation.mutate(id);
+  };
+
+  const { data:cars } = useCars();
   const reversedCars = [...cars].reverse();
   // console.log(reversedCars);
 

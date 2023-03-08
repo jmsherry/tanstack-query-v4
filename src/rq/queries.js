@@ -9,10 +9,11 @@ export const useCars = ({
   },
 } = {}) =>
   useQuery({
+    // suspense: true,
     queryKey: [STORAGE_KEY],
     queryFn: fetchCars,
-    // onSuccess,
-    // onError,
+    onSuccess,
+    onError,
   });
 
 export const useCar = ({ onSuccess, onError } = {}) =>

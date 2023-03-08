@@ -2,10 +2,11 @@ import { CARS_ENDPOINT } from "../settings";
 import axios from "axios";
 
 export const fetchCars = async () => {
-  // const response = await axios(CARS_ENDPOINT);
-  const response = await axios(CARS_ENDPOINT.slice(0, -3));
-  console.log(response);
-  return response.data;
+  const {data} = await axios(CARS_ENDPOINT);
+  // const {data} = await axios(CARS_ENDPOINT.slice(0, -3));
+  console.log(data);
+  // await new Promise((r) => setTimeout(r, 1000));
+  return data;
 };
 
 export const fetchCar = async (id) => {
