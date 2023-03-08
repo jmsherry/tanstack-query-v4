@@ -4,7 +4,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Button from "@mui/material/Button";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { QueryBoundaries } from "../utils/query-boundary.jsx";
+import { QueryBoundaries } from "../components/QueryBoundaries.jsx";
 
 import { fetchCars, deleteCar } from "./../../API/index";
 
@@ -19,7 +19,7 @@ function CarsListPage() {
     queryKey: ["cars"],
     queryFn: fetchCars,
   });
-  // console.log(query);
+  // console.log('data', data);
 
   // Mutations
   const deleteMutation = useMutation({
