@@ -4,7 +4,6 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Button from "@mui/material/Button";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { QueryBoundaries } from "../components/QueryBoundaries.jsx";
 
 import { fetchCars, deleteCar } from "./../../API/index";
 
@@ -15,7 +14,7 @@ function CarsListPage() {
   const queryClient = useQueryClient();
 
   // Queries
-  const { data /* isLoading, error */ } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ["cars"],
     queryFn: fetchCars,
   });
@@ -37,12 +36,21 @@ function CarsListPage() {
 
   // const { reset } = useQueryErrorResetBoundary();
 
+  let component = null;
+  if (isLoading) {
+    component = <CircularProgress />;
+  } else if (error) {
+    component = <p>Error: {JSON.stringify(error)}</p>;
+  } else {
+    component = <CarsList cars={data} deleteHandler={deleteHandler} />;
+  }
+
   return (
     <>
       <Typography variant="h3" component="h2">
         Cars
       </Typography>
-      <CarsList cars={data} deleteHandler={deleteHandler} />
+      {component}
     </>
   );
 }
