@@ -1,44 +1,37 @@
 import { CARS_ENDPOINT } from "../src/settings";
-import axios from "axios";
-import { sleep } from "../src/utils";
 
 export const fetchCars = async () => {
-  // const response = await axios(CARS_ENDPOINT);
-  const response = await axios(CARS_ENDPOINT.slice(0, -3));
-  console.log("start blocking");
-  sleep();
-  console.log("end blocking");
-  return response.data;
+  return fetch(CARS_ENDPOINT.slice(0, -3)).then((resp) => resp.json());
 };
 
 export const fetchCar = async (id) => {
-  const response = await axios(`${CARS_ENDPOINT}${id}`);
-  return response.data;
+  return fetch(`${CARS_ENDPOINT}${id}`).then((resp) => resp.json());
 };
 
 export const addCar = async (data) => {
   console.log("about to add", data);
-  const response = await axios({
+  return fetch(CARS_ENDPOINT, {
     method: "POST",
-    url: CARS_ENDPOINT,
-    data,
-  });
-  return response.data;
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  }).then((resp) => resp.json());
 };
 
 export const updateCar = async ({ id, data }) => {
   console.log("in api", id, data);
-  const response = await axios({
-    url: `${CARS_ENDPOINT}${id}`,
+  return fetch(`${CARS_ENDPOINT}${id}`, {
     method: "PUT",
-    data,
-  });
-  return response.data;
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  }).then((resp) => resp.json());
 };
 
 export const deleteCar = async (id) => {
-  return await axios({
+  return fetch(`${CARS_ENDPOINT}${id}`, {
     method: "DELETE",
-    url: `${CARS_ENDPOINT}${id}`,
   });
 };
