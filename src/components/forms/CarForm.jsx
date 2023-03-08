@@ -35,9 +35,9 @@ export default function CarForm({ car, submitHandler }) {
     defaultValues: car || defaults,
   });
 
-  useEffect(() => {
-    console.log(formState);
-  })
+  // useEffect(() => {
+  //   console.log(formState);
+  // })
 
   useEffect(() => {
     // console.log('useeffect', car);
@@ -51,8 +51,9 @@ export default function CarForm({ car, submitHandler }) {
   };
 
   let submitFn = (vals) => {
+    console.log('in form', vals);
     reset();
-    car ? submitHandler(car._id, vals) : submitHandler(vals);
+    submitHandler(vals);
   };
 
   return (

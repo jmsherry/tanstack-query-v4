@@ -8,26 +8,26 @@ export const fetchCar = async (id) => {
   return fetch(`${CARS_ENDPOINT}${id}`).then((resp) => resp.json());
 };
 
-export const addCar = async (formData) => {
-  console.log("about to add", formData);
+export const addCar = async (data) => {
+  console.log("about to add", data);
   return fetch(CARS_ENDPOINT, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(formData),
+    body: JSON.stringify(data),
   }).then((resp) => resp.json());
 };
 
-export const updateCar = async (...args) => {
-  console.log("in api", args);
-  // return fetch(`${CARS_ENDPOINT}${id}`, {
-  //   method: "PUT",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   body: JSON.stringify(formData),
-  // }).then((resp) => resp.json());
+export const updateCar = async ({ id, data }) => {
+  console.log("in api", id, data);
+  return fetch(`${CARS_ENDPOINT}${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  }).then((resp) => resp.json());
 };
 
 export const deleteCar = async (id) => {

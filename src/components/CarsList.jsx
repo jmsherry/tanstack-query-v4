@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 // import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import List from "@mui/material/List";
@@ -15,8 +15,10 @@ function CarsList({
   cars = [],
   deleteHandler = () => console.log("No deleteHandler provided to Cars List"),
 }) {
+
   const reversedCars = [...cars].reverse();
   // console.log(reversedCars);
+
   return (
     <List>
       {reversedCars.map(({ name, bhp, avatar_url, _id }) => (

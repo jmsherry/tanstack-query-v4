@@ -4,6 +4,7 @@ import { useQueryClient, useQuery, useMutation } from "@tanstack/react-query";
 import Typography from "@mui/material/Typography";
 import CarForm from "../components/forms/CarForm";
 import { fetchCars, updateCar } from "./../../API/index";
+import { getDiffOfTwoObjects } from "./../utils/index";
 
 function Update() {
   const { id } = useParams();
@@ -25,9 +26,9 @@ function Update() {
     },
   });
 
-  const submitHandler = (id, data) => {
-    console.log("data", id, data);
-    updateMutation.mutate(id, data);
+  const submitHandler = (formData) => {
+    const updates = getDiffOfTwoObjects(car, formData);
+    updateMutation.mutate({ id, data: updates });
     navigate("/");
   };
 
